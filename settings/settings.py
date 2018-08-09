@@ -25,3 +25,8 @@ ARGS = get_cli_arguments()
 CONFIG = get_config(ARGS.test)
 
 DEBUG = CONFIG.get('debug', True)
+
+email = CONFIG.get('email', {})
+EMAIL_RELAY = email.get('relay', 'wrong_relay.host.com')
+REPORT_RECIPIENTS = email.get('recipients', [])
+REPORT_SENDER = email.get('from', 'a@b.c')
