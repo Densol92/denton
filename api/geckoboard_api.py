@@ -1,7 +1,6 @@
 import requests
 from requests.auth import HTTPBasicAuth
 
-from settings.settings import GECKO
 from utils import get_logger
 
 

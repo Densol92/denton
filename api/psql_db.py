@@ -1,9 +1,7 @@
-import warnings
 from datetime import datetime
 
 import dataset
 
-from settings.settings import METABASE
 from utils import BaseClass
 
 

@@ -5,8 +5,8 @@ import yaml
 from utils.path_utils import config_file_path
 
 
-def get_config(test_mode):
-    return yaml.load(open(config_file_path(test_mode), 'r'))
+def get_config():
+    return yaml.load(open(config_file_path(), 'r'))
 
 
 def get_cli_arguments():
@@ -22,9 +22,13 @@ def get_cli_arguments():
 
 
 ARGS = get_cli_arguments()
-CONFIG = get_config(ARGS.test)
+CONFIG = get_config()
 
 DEBUG = CONFIG.get('debug', True)
+
+GECKO = CONFIG.get('geckoboard')
+MONGO = CONFIG.get('mongo')
+METABASE = CONFIG.get('metabase')
 
 email = CONFIG.get('email', {})
 EMAIL_RELAY = email.get('relay', 'wrong_relay.host.com')

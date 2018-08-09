@@ -1,7 +1,6 @@
 from __future__ import division
 
 import subprocess
-import warnings
 from multiprocessing.pool import ThreadPool
 from pathlib import Path
 
@@ -9,11 +8,10 @@ from api.geckoboard_api import GeckAPI
 from api.mongo_db import MongoDB
 from api.psql_db import PsqlDB
 from settings import ReportPolicy, ConvertPolicy
-from settings.settings import ARGS
-from utils.date_utils import convert_result, today
-from utils.html_utils import download_if_need_daily_plesk_extensions_report
-from utils.path_utils import report_dir, weekly_report_dir, monthly_report_dir, file_name, \
-    get_report_files, root_dir
+from settings.settings import ARGS, GECKO, MONGO, METABASE
+from utils.date_utils import convert_result
+from utils.path_utils import file_name, root_dir
+from utils.path_utils import get_report_files, monthly_reports_dir, weekly_reports_dir, daily_reports_dir
 
 
 def mongo_report(dataset_id, query, report_policy=None, convert_policy=None):
@@ -22,7 +20,7 @@ def mongo_report(dataset_id, query, report_policy=None, convert_policy=None):
     if convert_policy is None:
         convert_policy = ConvertPolicy.default()
 
-    result = MongoDB.eres().select(query)
+    result = MongoDB.connect_to(MONGO).select(query)
     converted_result = convert_result(result, convert_policy)
     report_result(dataset_id, converted_result, report_policy)
     return converted_result
@@ -30,13 +28,13 @@ def mongo_report(dataset_id, query, report_policy=None, convert_policy=None):
 
 def report_result(dataset_id, report, report_policy):
     if report_policy.report_to_gecko:
-        GeckAPI.get_instance().update_dataset(dataset_id, report)
+        GeckAPI.connect_to(GECKO).update_dataset(dataset_id, report)
 
     if report_policy.report_to_mongo:
-        MongoDB.connect_to_report_db().insert_many(dataset_id, report)
+        MongoDB.connect_to({}).insert_many(dataset_id, report)
 
     if report_policy.report_to_postgres:
-        PsqlDB.connect_to_report_db().insert_many(dataset_id, report)
+        PsqlDB.connect_to(METABASE).insert_many(dataset_id, report)
 
 
 def run_one_report(report_path):
@@ -71,14 +69,13 @@ if __name__ == '__main__':
         run_reports(reports_file_paths, 1)
 
     if ARGS.monthly:
-        reports_file_paths = get_report_files(monthly_report_dir())
+        reports_file_paths = get_report_files(monthly_reports_dir())
         run_reports(reports_file_paths, ARGS.threads_count)
 
     if ARGS.weekly:
-        download_if_need_daily_plesk_extensions_report()
-        reports_file_paths = get_report_files(weekly_report_dir())
+        reports_file_paths = get_report_files(weekly_reports_dir())
         run_reports(reports_file_paths, ARGS.threads_count)
 
     if ARGS.daily:
-        reports_file_paths = get_report_files(report_dir())
+        reports_file_paths = get_report_files(daily_reports_dir())
         run_reports(reports_file_paths, ARGS.threads_count)

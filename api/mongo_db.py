@@ -1,8 +1,5 @@
-from datetime import datetime
-
 from pymongo.mongo_client import MongoClient
 
-from settings.settings import ERES_CONFIG, METABASE_MONGO
 from utils import get_logger
 from utils.date_utils import timeit
 
