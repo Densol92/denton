@@ -34,3 +34,8 @@ email = CONFIG.get('email', {})
 EMAIL_RELAY = email.get('relay', 'wrong_relay.host.com')
 REPORT_RECIPIENTS = email.get('recipients', [])
 REPORT_SENDER = email.get('from', 'a@b.c')
+
+
+DEFAULT_LOGGER = 'report'
+GECKOBOARD_DATE_FORMAT = '%Y-%m-%d'
+FILE_DATETIME_FORMAT = "%Y-%m-%d_%H_%M_%S"

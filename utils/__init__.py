@@ -6,12 +6,7 @@ import os
 from mailer import Mailer
 from mailer import Message
 
-from settings.settings import REPORT_RECIPIENTS, REPORT_SENDER, EMAIL_RELAY
-
-DEFAULT_LOGGER = 'report'
-GECKOBOARD_DATE_FORMAT = '%Y-%m-%d'
-MONTHLY_REPORT_NAME_FORMAT = '%Y%m%d'
-FILE_DATETIME_FORMAT = "%Y-%m-%d_%H_%M_%S"
+from settings.settings import REPORT_RECIPIENTS, REPORT_SENDER, EMAIL_RELAY, DEFAULT_LOGGER
 
 
 class BaseClass(object):
