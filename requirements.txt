@@ -1,0 +1,10 @@
+mailer>=0.8.1
+psycopg2>=2.7.1 --no-binary psycopg2
+pymongo==3.4.0
+python-dateutil>=2.6.0
+PyYAML>=3.5
+requests>=2.13.0
+six>=1.10.0
+xlrd>=1.0.0
+CurrencyConverter>=0.13.0
+dataset>=1.0.0
