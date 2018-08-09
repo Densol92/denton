@@ -6,6 +6,8 @@ import os
 from mailer import Mailer
 from mailer import Message
 
+from settings.settings import REPORT_RECIPIENTS, REPORT_SENDER, EMAIL_RELAY
+
 DEFAULT_LOGGER = 'report'
 GECKOBOARD_DATE_FORMAT = '%Y-%m-%d'
 MONTHLY_REPORT_NAME_FORMAT = '%Y%m%d'
@@ -80,3 +82,12 @@ def calculate_rates(rate):
     good = sum(map(lambda x: x['total'], filter(lambda x: x['rate'] > 8, rate)))
     bad = sum(map(lambda x: x['total'], filter(lambda x: x['rate'] < 7, rate)))
     return good, bad, total
+
+
+def is_english(s):
+    try:
+        s.encode('ascii')
+    except UnicodeEncodeError:
+        return False
+    else:
+        return True
