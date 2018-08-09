@@ -1,0 +1,24 @@
+mongo:
+  host: mongo.host.ru
+  port: 27017
+  user: reports
+  password: reports
+  db_name: reports
+  collection: last_reports
+
+
+geckoboard:
+  url: https://api.geckoboard.com/datasets/
+  token: 12123123123123
+
+metabase:
+  host: metabase.host.ru
+  db_name: reports
+  user: reports
+
+email:
+  relay: smtp.gmail.com
+  recipients: [gaben@valvesoftware.com]
+  from: denton@github.com
+
+debug: false
